@@ -2,13 +2,17 @@ extr_ts <- function(filein = "data/PM10_20200101-20201231.nc",
                     xx = 345136,
                     yy = 5095992) {
   library(raster)
+  library(futile.logger)
   bb <- brick(filein)
   dd <- getValues(bb)
   cc <- coordinates(bb)
   dx <- abs(cc[1,1]-cc[2,1])
   ii <- which.min((xx-cc[,1])^2+(yy-cc[,2])^2)
   Dist <- sqrt((xx-cc[ii,1])^2+(yy-cc[ii,2])^2)
-  if(Dist>dx/2*sqrt(2)) stop("Point outside domain")
+  if(Dist>dx) { # concediamo margine
+    flog.error("Point outside domain")
+    return()
+  }
   ts <- unname(dd[ii,])
   library(lubridate)
   tt <- as.Date(unname(ymd_hm(names(bb@z))+days(bb@z[[1]])))
