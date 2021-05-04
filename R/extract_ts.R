@@ -19,7 +19,7 @@ extr_ts <- function(filein = "data/PM10_20200101-20201231.nc",
   out <- data.frame(Day=unname(tt), Value=unname(ts))
   library(dplyr)
   out <- left_join(data.frame(Day=seq.Date(tt[1],tt[length(tt)],by = "1 day"), 
-                              x.UTM33=cc[ii,1], y.UTM33=cc[ii,2]), out)
+                              x.UTM33=cc[ii,1], y.UTM33=cc[ii,2], Unit=bb@data@unit), out)
   return(out)
 }
 

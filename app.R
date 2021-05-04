@@ -99,7 +99,7 @@ server <- function(input, output, session) {
     data <- xts(dd[,"Value"], order.by=dd[,"Day"])
     print(str(data))
     output$plot1 <- renderDygraph({
-      dygraph(data, main = input$poll) %>%
+      dygraph(data, main = glue("{input$poll} ({dd[1,'Unit']})")) %>%
         dyOptions(drawGrid = input$showgrid, fillGraph = TRUE, fillAlpha = 0.4, drawPoints = TRUE) %>%
         dyRangeSelector()
     })
