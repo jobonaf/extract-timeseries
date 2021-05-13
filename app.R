@@ -8,20 +8,6 @@ library(dygraphs)
 source("R/extract_ts.R")
 
 ui <- fluidPage(
-  column(width = 12,
-         HTML(
-           "<div class='alert alert-info'>",
-           "<strong>Attenzione!</strong> Gli indicatori si riferiscono alle concentrazioni di fondo.",
-           "In prossimità di importanti sorgenti emissive (strade, impianti industriali, porti, edifici, ...) o in",
-           "condizioni favorevoli ad accumuli localizzati (fondovalle, strade e cortili chiusi tra edifici)",
-           "le concentrazioni potrebbero essere piuttosto diverse.",
-           "Le elaborazioni sono realizzate nella mattinata per garantire informazione tempestiva,",
-           "perciò a volte si basano su dati misurati non ancora controllati, alcuni dei quali potrebbero essere successivamente invalidati.",
-           "Per l'accesso ai dati validati delle stazioni di monitoraggio, si faccia riferimento a ",
-           "<a href='http://www.arpaweb.fvg.it/qagis/ariastor.asp' class='alert-link'>questa pagina</a>.",
-           "</div>"
-         )
-  ),
   
   sidebarPanel(
     helpText(
@@ -49,7 +35,22 @@ ui <- fluidPage(
   mainPanel(
     leafletOutput("mymap"),
     dygraphOutput("plot1")
+  ),
+  column(width = 12,
+         HTML(
+           "<div class='alert alert-info'>",
+           "<strong>Attenzione!</strong> Gli indicatori si riferiscono alle concentrazioni di fondo.",
+           "In prossimità di importanti sorgenti emissive (strade, impianti industriali, porti, edifici, ...) o in",
+           "condizioni favorevoli ad accumuli localizzati (fondovalle, strade e cortili chiusi tra edifici)",
+           "le concentrazioni potrebbero essere piuttosto diverse.",
+           "Le elaborazioni sono realizzate nella mattinata per garantire informazione tempestiva,",
+           "perciò a volte si basano su dati misurati non ancora controllati, alcuni dei quali potrebbero essere successivamente invalidati.",
+           "Per l'accesso ai dati validati delle stazioni di monitoraggio, si faccia riferimento a ",
+           "<a href='http://www.arpaweb.fvg.it/qagis/ariastor.asp' class='alert-link'>questa pagina</a>.",
+           "</div>"
+         )
   )
+  
 )
 
 server <- function(input, output, session) {
