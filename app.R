@@ -5,36 +5,39 @@ library(leaflet.extras)
 library(glue)
 library(xts)
 library(dygraphs)
+library(shinyBS)
 source("R/extract_ts.R")
 
 ui <- fluidPage(
   
-  sidebarPanel(
+  column(width = 12,
     helpText(
       "La migliore stima della qualità dell'aria su ogni punto del Friuli - Venezia Giulia viene realizzata integrando simulazioni e misure con tecniche geostatistiche.",
-      "Le elaborazioni sono realizzate quotidianamente con una risoluzione di 2 km.",
-      "Qui è possibile visualizzare e scaricare, per ogni punto, le serie giornaliere di tre indicatori:",
-      "medie giornaliere di PM10, massimi giornalieri di biossido di azoto, massimi giornalieri della media mobile su otto ore dell'ozono.",
-      hr(),
-      "Cliccando sull'icona della lente sulla mappa a destra, puoi cercare la località che ti interessa.",
-      "Per scegliere il punto di estrazione clicca sulla mappa.",
-      "Usa i menù a tendina qui sotto per selezionare anno e inquinante, e i due pulsanti più sotto per visualizzare o scaricare i dati estratti.",
-      "Il grafico è interattivo: trascinando il mouse puoi visualizzare un sotto-periodo."
+      "Le elaborazioni sono realizzate quotidianamente con una risoluzione di 2 km."
     ),
     selectInput("year", label = NULL, 
                 choices = 2016:2020, 
                 selected = 2018),
-    selectInput("poll", label = NULL, 
+    bsTooltip("year", "scegli l\\'anno che ti interessa", placement = "right"),
+    selectInput(inputId = "poll", label = NULL, 
                 choices = list("PM10: media giornaliera"="PM10",
                                "NO2: massimo giornaliero"="NO2",
                                "O3: massimo giornaliero della media mobile su 8 ore"="O3"), 
                 selected = "PM10"),
-    actionButton("get", label = "visualizza"),
-    downloadButton('downloadData', label = 'scarica i dati')
+    bsTooltip("poll", "scegli un indicatore di qualità dell\\'aria", placement = "right")
   ),
-  mainPanel(
+  column(width = 12,
     leafletOutput("mymap"),
-    dygraphOutput("plot1")
+    bsTooltip("mymap", "seleziona un punto del Friuli Venezia Giulia cliccando sulla mappa (puoi cercare una località cliccando sulla lente in alto a sinistra)", placement = "bottom"),
+    hr(),
+    actionButton("get", label = "visualizza"),
+    bsTooltip("get", "visualizza la serie temporale di un punto, selezionato cliccando sulla mappa", placement = "right"),
+    dygraphOutput("plot1"),
+    bsTooltip("plot1", "il grafico è interattivo: trascinando il mouse puoi visualizzare un sotto-periodo", placement = "top"),
+    hr(),
+    downloadButton('downloadData', label = 'scarica i dati'),
+    bsTooltip("downloadData", "scarica la serie temporale in formato CSV", placement = "right"),
+    hr()
   ),
   column(width = 12,
          HTML(
