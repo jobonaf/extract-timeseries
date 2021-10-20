@@ -3,5 +3,8 @@
 .RData
 .Ruserdata
 data/*.nc
+data/*.csv
+data/*.asc
 *.Rproj
 *.html
+tmp/*
